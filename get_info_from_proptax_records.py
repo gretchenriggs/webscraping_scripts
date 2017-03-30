@@ -173,7 +173,7 @@ if __name__ == '__main__':
                     square footage is finished, STRING (init w/ '-')
     zoned_as        Zoning code, STRING (init w/ '-')
     '''
-    res_test_2016 = pd.read_csv('2016/test.csv')
+    res_test_2016 = pd.read_csv('test.csv')
     res_test_2016.fillna('-', inplace=True)
 
     # Scrape data from denver.gov property tax records and save to DataFrame
