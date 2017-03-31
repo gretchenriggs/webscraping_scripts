@@ -120,21 +120,24 @@ def scrape_denvergov_proptax_records(df):
 
             # Copying scraped information to the DataFrame
             df['parcel_number'][i] = str(parcel_number)
-            df['owner'][i] = owner
-            df['co_owner'][i] = co_owner
-            df['year_assessed'][i] = year_assessed
-            df['assessed_value'][i] = assessed_value
-            df['actual_value'][i] = actual_value
-            df['property_type'][i] = str(property_type).replace(' ', '')
+            df['owner'][i] = str(owner).replace('  ', '')
+            if str(co_owner).replace(" ", "") != '':
+                df['co_owner'][i] = str(co_owner)
+            df['year_assessed'][i] = int(year_assessed)
+            df['assessed_value'][i] = int(str(assessed_value).replace("$", "")\
+                                                             .replace(",", ""))
+            df['actual_value'][i] = int(str(actual_value).replace("$", "") \
+                                                         .replace(",", ""))
+            df['property_type'][i] = str(property_type).replace('  ', '')
             df['house_type'][i] = str(house_type)
-            df['sqft'][i] = sqft
-            df['bedrooms'][i] = bedrooms
-            df['lot_size'][i] = lot_size
-            df['year_built'][i] = year_built
-            df['baths'][i] = baths
+            df['sqft'][i] = int(sqft)
+            df['bedrooms'][i] = int(bedrooms)
+            df['lot_size'][i] = int(str(lot_size).replace(",", ""))
+            df['year_built'][i] = int(year_built)
+            df['baths'][i] = str(baths)
             df['basement_sqft_and_finished'][i] = \
-                                                basement_sqft_and_finished
-            df['zoned_as'][i] = zoned_as
+                                                str(basement_sqft_and_finished)
+            df['zoned_as'][i] = str(zoned_as)
 
             # Closing the browser
             browser.close()
@@ -159,7 +162,7 @@ if __name__ == '__main__':
     co_owner:       Co-owner of property, STRING (init w/ '-')
     year_assessed:  Year of property tax assessment, INT (init w/ 0)
     assessed_value: Assessed value of property, INT (init w/ 0)
-    actual value:   Actual value of property, INT (init w/ 0)
+    actual_value:   Actual value of property, INT (init w/ 0)
     property_type:  Property use type (Residential, Industrial, etc.), STRING
                     (init w/ '-')
     house_type:     Type of property (One-story, Two-Story, etc.), STRING
@@ -173,11 +176,11 @@ if __name__ == '__main__':
                     square footage is finished, STRING (init w/ '-')
     zoned_as        Zoning code, STRING (init w/ '-')
     '''
-    res_test_2016 = pd.read_csv('test.csv')
-    res_test_2016.fillna('-', inplace=True)
+    com_2016 = pd.read_csv('test.csv')
+    com_2016.fillna('-', inplace=True)
 
     # Scrape data from denver.gov property tax records and save to DataFrame
-    res_test_2016 = scrape_denvergov_proptax_records(res_test_2016)
+    com_2016 = scrape_denvergov_proptax_records(com_2016)
 
     # Outputting DataFrame to csv file with updated information
-    res_test_2016.to_csv("res_test_2016.csv")
+    com_2016.to_csv("com_test_2016.csv")
