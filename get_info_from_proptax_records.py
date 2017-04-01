@@ -131,7 +131,8 @@ def scrape_denvergov_proptax_records(df):
             df['property_type'][i] = str(property_type).replace('  ', '')
             df['house_type'][i] = str(house_type)
             df['sqft'][i] = int(sqft)
-            df['bedrooms'][i] = int(bedrooms)
+            if (bedrooms != ""):
+                df['bedrooms'][i] = int(bedrooms)
             df['lot_size'][i] = int(str(lot_size).replace(",", ""))
             df['year_built'][i] = int(year_built)
             df['baths'][i] = str(baths)
@@ -147,6 +148,7 @@ def scrape_denvergov_proptax_records(df):
         #   investigated further.
         except:
             print "Unexpected error for address", total_address
+            browser.close()
 
     return df
 
